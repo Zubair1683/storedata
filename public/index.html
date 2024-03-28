@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comment Box</title>
+</head>
+<body>
+    <h1>Comment Box</h1>
+    <form action="/submit-comment" method="POST">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="comments">Comments:</label><br>
+        <textarea id="comments" name="comments"></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Comments:</h2>
+    <ul id="commentList"></ul>
+
+    <script>
+        fetch('../comments')
+            .then(response => response.json())
+            .then(comments => {
+                const commentList = document.getElementById('commentList');
+                comments.forEach(comment => {
+                    const li = document.createElement('li');
+                    li.textContent = `${comment.name}: ${comment.comments}`;
+                    commentList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching comments:', error);
+            });
+    </script>
+</body>
+</html>
